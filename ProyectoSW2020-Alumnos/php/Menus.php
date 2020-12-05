@@ -5,6 +5,8 @@
 <script src="../js/AddQuestionsAjax.js"></script>
 <script src="../js/CountQuestions.js"></script>
 <script src="../js/CountUsersAjax.js"></script>
+<script src="../js/CalificarAjax.js"></script>
+<script src="../js/AJugarAjax.js"></script>
 <?php
     error_reporting(0);
     if(isset($_SESSION['email'])){
