@@ -7,6 +7,9 @@
 <script src="../js/CountUsersAjax.js"></script>
 <script src="../js/CalificarAjax.js"></script>
 <script src="../js/AJugarAjax.js"></script>
+<script src="../js/LoginSocial.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="../js/LoginSocial.js"></script>
 <?php
     error_reporting(0);
     if(isset($_SESSION['email'])){
@@ -54,9 +57,9 @@
         <div id='page-wrap'>
         <header class='main' id='h1'>
           <span class='right'><a href='SignUp.php'>Registro</a></span>
-            <span class='right'><a href='LogIn.php'>Login</a></span>
+            <span class='right'><a href='LogIn.php' onClick='signOut();'>Login</a></span>
             <span class='right'>Anonimo</span>
-            <span class='right' style='display:none;'><a href='/logout'>Logout</a></span>
+            <span class='right' style='display:none;'><a href='/logout' onClick='signOut()'>Logout</a></span>
             <img src='../images/usuarios/anonimo.png' width='50px' height='50px'>
 
 

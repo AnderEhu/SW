@@ -5,6 +5,9 @@
 <html>
 <head>
   <?php include '../html/Head.html'?>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="../js/LoginSocial.js"></script>
+  <meta name="google-signin-client_id" content="55641537043-e4d94u7k7n208s0gj8l21g2esm1our41.apps.googleusercontent.com">
 </head>
 <body>
   <?php include '../php/Menus.php' ?>
@@ -15,7 +18,12 @@
             <p> Email   : <input type="email"  name="email" size="21" value="" />
             <p> Password: <input type="password"  name="pass" size="21" value="" />
             <p> <input id="input_2" type="submit" name="submit" value="Login" />
-        </form>
+
+        </form><br>
+
+        <p> Accede utilizando una cuenta de google </p><br>
+        <div class="g-signin2" align="center" data-onsuccess="onSignIn"></div>
+
 
         <?php
                 include "DbConfig.php";
