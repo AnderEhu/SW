@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+  }
     if(!isset($_SESSION['tipo']) || ($_SESSION['tipo']!='profesor' && $_SESSION['tipo']!='alumno')){
       echo "<script>
               window.location.href='Layout.php';

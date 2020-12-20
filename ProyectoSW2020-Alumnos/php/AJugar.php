@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -33,20 +35,22 @@
           exit('<p style="color:red;"> Ha ocurrido un error inesperado </p> <br> <a href="Layout.php"> Volver a la pagina principal </a>');
         }
 
-        echo '<form id="fJugar" method="get" action="">';
-        echo '<h2> Elige un tema para jugar </h2><br> ';
+        echo '<form style="border-style: solid; border-color: #5d6d7e; "  id="fJugar" method="get" action="">';
+        echo '<h2 style="color:  #eaeded ; font-size:30px;  padding: 10px; background-color:   #5d6d7e;"> Elige un tema para jugar </h2><br> ';
+        echo '<div style="font-size:20px; padding: 10px;">';
         $checked = false;
         while ($row = mysqli_fetch_array($res)){
           if ($checked){
-            echo '<input id="opTema" name="tema" type="radio" value="'.$row['tema'].'" />'. $row['tema'].'<br>';
+            echo '<div style="padding: 5px; "> <input id="opTema" name="tema" type="radio" value="'.$row['tema'].'" />'. $row['tema'].'<br></div>';
           }else{
-            echo '<input id="opTema" name="tema" type="radio" value="'.$row['tema'].'" checked="checked" />'. $row['tema'].'<br>';
+            echo '<div style="padding: 5px; "> <input id="opTema" name="tema" type="radio" value="'.$row['tema'].'" checked="checked" />'. $row['tema'].'<br></div>';
             $checked = true;
           }
 
         }
-        echo '<br><input type="button" value="Jugar" onclick="aJugar()"> ';
-        echo '</form>';
+        echo '</div>';
+        echo '<br><input type="button" style="font-size:30px; width: 150px; height : 60px; background-color:   #0ec481; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;" value="Jugar" onclick="aJugar()"> ';
+        echo '<br><br></form>';
 
         mysqli_close($mysqli);
 

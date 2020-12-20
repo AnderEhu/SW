@@ -1,3 +1,8 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +17,14 @@
 
   ?>
   <section class="main" id="s1">
-    <div>
+    <div style="border-style: solid; border-color: #5d6d7e; ">
     <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
     <script src="../js/ShowImageInForm.js"></script>
     <script src="../js/ClientVerifyEnrollmentAjax.js"></script>
     <script src="../js/ClientVerifyPassAjax.js"></script>
 
         <form id='fquestion' name='login' action='' method="post" enctype="multipart/form-data">
-
+        <h2 style="color:  #eaeded ; font-size:30px;  padding: 10px; background-color:   #5d6d7e;">Registro de usuario</h2><br>
             <span>
                 <input type="radio" id="rdbProfesor" name="tipoUser" value="profesor">
                 <label for="rdbProfesor">Profesor</label>
@@ -49,7 +54,7 @@
 
             <br><input type="file" name="imagenUser" id="subirImagen" accept=".jpeg,.jpg,.png" onChange="showImage()"/>
 
-            <br><br><input type="submit" name="submit" value="Registrar" id="enviar" ><br><br>
+            <br><br><input type="submit" style="color: white; font-size:16px; width: 100px; height : 35px; background-color:  #0ec481; cursor: pointer; padding: 5px; co lor: white; border: none;  border-radius: 8px;" name="submit" value="Registrar" id="enviar" ><br><br>
 
         </form>
 
@@ -156,12 +161,14 @@
         $path = $mysqli->real_escape_string($path);
 
 
-        $query = "INSERT INTO Usuarios(Email, TipoUser, NombreApellidos, Pass, Imagen, Estado)
-                VALUES (?,?,?,?,?,'activo')";
+        $query = "INSERT INTO Usuarios(Email, TipoUser, NombreApellidos, Pass, Imagen, Estado, LastCon, Code)
+                VALUES (?,?,?,?,?,'activo', ?,?)";
 
         $stmt = $mysqli->prepare($query);
 
-        $stmt->bind_param('sssss', $email, $tipoUser, $nombeYApellidos, $hashPass, $path);
+        $time = time();
+
+        $stmt->bind_param('sssssss', $email, $tipoUser, $nombeYApellidos, $hashPass, $path, $time, $time);
 
 
 

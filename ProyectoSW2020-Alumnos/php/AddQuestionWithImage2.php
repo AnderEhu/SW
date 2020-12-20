@@ -1,6 +1,10 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+  }
     if(isset($_SESSION['tipo']) && ($_SESSION['tipo'] == 'alumno' || $_SESSION['tipo'] == 'profesor')){
+      include "UpdateLastConection.php";
+      updateLastConection();
       header("Cache-Control: no-store");
       $mensajeInsertarEnBD = insertarPreguntaBD();
       $mensajeInsertarEnXML = insertarPreguntaXML();
@@ -53,7 +57,7 @@
       // Validacion de tipo de usuario
       $esAlumno = preg_match("/^[a-z]+\\d{3}@ikasle\.ehu\.(eus|es)$/", $email);
       $esProfesor = preg_match("/^([a-z]+\.)?[a-z]+@ehu\.(eus|es)$/", $email);
-      if(!($esAlumno || $esProfesor)){
+      if(!($esAlumno || $esProfesor || $_SESSION['social'] == "si")){
         return "<p id='msgBD' style='color:red;'> El email no es valido </p>";
       }
 
@@ -75,8 +79,8 @@
         $path = "../images/noimage.png";
       }
 
-      $query = "INSERT INTO Preguntas(correo, enunciado, resOK, resF1, resF2, resF3, tema, complejidad, imagen)
-              VALUES (?,?,?,?,?,?,?,?,?)";
+      $query = "INSERT INTO Preguntas(correo, enunciado, resOK, resF1, resF2, resF3, tema, complejidad, imagen, Likes, Dislikes)
+              VALUES (?,?,?,?,?,?,?,?,?,0,0)";
 
 
       $stmt = $mysqli->prepare($query);

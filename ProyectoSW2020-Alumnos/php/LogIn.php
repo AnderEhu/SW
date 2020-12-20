@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,17 +14,17 @@
 <body>
   <?php include '../php/Menus.php' ?>
   <section class="main" id="s1">
-    <div>
+    <div style="border-style: solid; border-color: #5d6d7e; ">
         <form method="post">
-        <h2>Identificación de usuario </h2>
-            <p> Email   : <input type="email"  name="email" size="21" value="" />
-            <p> Password: <input type="password"  name="pass" size="21" value="" />
-            <p> <input id="input_2" type="submit" name="submit" value="Login" />
+            <h2 style="color:  #eaeded ; font-size:30px;  padding: 10px; background-color:   #5d6d7e;">Identificación de usuario </h2><br>
+            <input type="email" placeholder="Escribe tu email" name="email" size="21" value="" /><br><br>
+            <input type="password"   placeholder="Escribe tu contraseña" name="pass" size="21" value="" /><br><br>
+            <input style="font-size:14px; width: 100px; height : 35px; background-color:  #0ec481; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;"  id="input_2" type="submit" name="submit" value="Login" /><br>
 
         </form><br>
 
         <p> Accede utilizando una cuenta de google </p><br>
-        <div class="g-signin2" align="center" data-onsuccess="onSignIn"></div>
+        <div class="g-signin2" align="center" data-onsuccess="onSignIn"></div><br>
 
 
         <?php

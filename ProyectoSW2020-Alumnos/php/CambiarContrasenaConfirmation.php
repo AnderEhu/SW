@@ -1,49 +1,51 @@
 <?php
     if(isset($_POST['emailR'])){
-        $email  = "'".$_POST['emailR']."'";
-        $codigo  = $_POST['codigoR'];
-        $passR  = "'".$_POST['passR']."'";
-        $repPass  = "'".$_POST['repPassR']."'";
 
         include "DbConfig.php";
+
         $mysqli = mysqli_connect($server, $user, $pass, $basededatos);
+
         if (!$mysqli){
-          exit('<p style="color:red;"> Ha ocurrido un error inesperado0 </p> <br> <a href="Layout.php"> Volver a la pagina principal </a>');
+          exit('<img src="../images/tickrojo.png" style="height: 70px; width: 70px;">
+          <h1 style="color:red;"> No se ha podido restablecer la contraseña </h1>');
         }
-
-        $query = "SELECT * FROM Usuarios WHERE Email=$email AND Code=$codigo";
-
-
-        $res = mysqli_query($mysqli, $query);
-
-
-        if(!$res){
-          exit('<p style="color:red;"> No se ha podido restablecer la contraseña1 </p>');
-        }
-
+        $email  =  mysqli_real_escape_string($mysqli, $_POST['emailR']);
+        $codigo  = $_POST['codigoR'];
+        $passR  = mysqli_real_escape_string($mysqli, $_POST['passR']);
+        $repPass  = mysqli_real_escape_string($mysqli, $_POST['repPassR']);
 
         if($passR != $repPass || $passR == ""){
-            exit('<p style="color:red;"> No se ha podido restablecer la contraseña2 </p>');
+          exit('<img src="../images/tickrojo.png" style="height: 70px; width: 70px;">
+          <h1 style="color:red;"> No se ha podido restablecer la contraseña </h1>');
         }
 
+
+        $stmt = mysqli_prepare($mysqli, "SELECT Email FROM Usuarios WHERE Email=? AND Code=?");
+        mysqli_stmt_bind_param($stmt, "si", $email, $codigo);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $res);
+        mysqli_stmt_fetch($stmt);
+
+        if ($res != $email){
+          exit('<img src="../images/tickrojo.png" style="height: 70px; width: 70px;">
+          <h1 style="color:red;"> No se ha podido restablecer la contraseña </h1>');
+        }
+        mysqli_stmt_close($stmt);
 
         $newCode = time();
 
-        $hashPass = "'".password_hash($_POST['passR'], PASSWORD_DEFAULT)."'";
+        $hashPass = password_hash($_POST['passR'], PASSWORD_DEFAULT);
+
+        $stmt2 = mysqli_prepare($mysqli, "UPDATE Usuarios SET Code=?, Pass=? WHERE Email=?");
+        mysqli_stmt_bind_param($stmt2, 'iss', $newCode, $hashPass, $email);
+        if(!mysqli_stmt_execute($stmt2)){
+          exit('<img src="../images/tickrojo.png" style="height: 70px; width: 70px;">
+          <h1 style="color:red;"> No se ha podido restablecer la contraseña </h1>');
+        }
 
 
-        $query = "UPDATE Usuarios SET Code=$newCode, Pass=$hashPass WHERE Email=$email";
-
-
-        $res = mysqli_query($mysqli, $query);
-
-        if(!$res){
-            exit('<p style="color:red;"> No se ha podido restablecer la contraseña3 </p>');
-          }
-
-
-        echo "Todo bien";
-
+        echo "<img src='../images/tickverde.png' style='height: 70px; width: 70px;'>";
+        echo '<h1 style="color:green;"> Contraseña restablecida </h1>';
 
 
     }

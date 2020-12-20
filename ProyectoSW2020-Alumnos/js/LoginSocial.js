@@ -1,4 +1,7 @@
 function onSignIn(googleUser) {
+  if (typeof gapi.auth2 !== 'undefined'){
+    signOut();
+  }
     var profile = googleUser.getBasicProfile();
     var name = profile.getName();
     var image = profile.getImageUrl();
@@ -23,6 +26,7 @@ function onSignIn(googleUser) {
         cache: false,
         type: 'POST',
         success: function(data){
+            //console.log(data);
             window.location.href='Layout.php';
         }
 

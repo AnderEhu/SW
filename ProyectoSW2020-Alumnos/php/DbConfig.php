@@ -11,9 +11,9 @@ if ($local==0){
     $basededatos="Quiz";
 } else {
     $server="localhost";
-    $user="id14922465_quizdbsw12";
+    $user="id15712055_wc20758b";
     $pass="mejordbSW12!";
-    $basededatos="id14922465_quizdb";
+    $basededatos="id15712055_sw758b";
 }
 
 

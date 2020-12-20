@@ -3,6 +3,7 @@
         session_start();
     }
     if ($_SESSION['tema'] && !isset($_SESSION['email'])){
+
         include "DbConfig.php";
         $mysqli = mysqli_connect($server, $user, $pass, $basededatos);
         $contestadas = $_SESSION['contestadas'];
@@ -33,11 +34,13 @@
 
         $row = mysqli_fetch_array($res);
 
+
         $_SESSION['id'] = $row['id'];
 
-        echo '<form id="fJugar" method="get" action="">';
+        echo '<form id="fJugar" style="border-style: solid; border-color: #5d6d7e; " method="get" action="">';
 
-        echo "<h2>".$row['enunciado']."</h2><br>";
+        echo '<h2 style="color:  #eaeded ; font-size:30px;  padding: 10px; background-color:   #5d6d7e;" >'.$row["enunciado"].'</h2><br>';
+        echo '<div style="font-size:20px;">';
 
         $a = array(
             $row['resOK'],
@@ -52,18 +55,20 @@
         $idInt = $row['id'];
 
 
+
+
         $_SESSION['contestadas'] = $_SESSION['contestadas'] . " AND id!=$idInt ";
 
         //echo '<p> Opciones: </p> ';
 
         for($i=0; $i<$longitud; $i++){
-            echo '<input id="opTema" name="tema" type="radio" value="'.$a[$i].'" />'. $a[$i].'<br>';
+            echo '<div style="padding: 3px;"> <input id="opTema" name="tema" type="radio" value="'.$a[$i].'" />'. $a[$i].'</div>';
         }
-        echo '<br><img width="160px" height="160px" src="'.$row['imagen'].'"><br><br>';
-        echo '<input type="button" value="Calificar" onclick="calificar()"> ';
-        echo '<input type="button" value="Abandonar" onclick="resultados()"> ';
-        echo '<input type="button" value="Otra Pregunta" onclick="otraPregunta()"> </br>';
-        echo "</form>";
+        echo '<br><img width="160px" height="160px" id="imgQuiz" src="'.$row['imagen'].'"><br><br>';
+        echo '<input id="abandonar" style="font-size:14px; width: 120px; height : 60px; background-color:  #e74c3c; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;" type="button" value="Abandonar" onclick="resultados()"> ';
+        echo '<input id="calificarPreg" style="font-size:14px; width: 120px; height : 60px; background-color: #d68910 ; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;" type="button" value="Calificar" onclick="calificar()"> ';
+        echo '<input id="otraPreg"  style="font-size:14px; width: 120px; height : 60px; background-color: #5d6d7e; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;"type="button" value="Otra Pregunta" onclick="otraPregunta()"> </br>';
+        echo "</div><br></form>";
 
 
 

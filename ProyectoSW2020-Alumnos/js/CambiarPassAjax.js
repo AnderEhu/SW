@@ -1,8 +1,13 @@
 function cambiarPass(){
     var fd = new FormData();
     //console.log(  $("#subirImagen")[0].files[0]);
-    console.log( $("#emailR").val());
-    fd.append( 'email',  $("#emailR").val());
+    var email = $("#emailR").val();
+    console.log(email);
+    if(email==""){
+        $("#fpass").append("<p class='ErrorMsgs'>Introduce un email </p><br>");
+        return;
+    }
+    fd.append( 'email',  email);
 
     $.ajax({
 
@@ -14,6 +19,10 @@ function cambiarPass(){
         type: 'POST',
         success: function(data){
             console.log(data);
+            $('#cambiarPass').html("");
+            $('#cambiarPass').html(data);
+
+
         }
 
 
@@ -40,7 +49,9 @@ function cambiarPassConfirmation(){
         cache: false,
         type: 'POST',
         success: function(data){
-            console.log(data);
+            $("#fResPass").remove();
+            $("#datos").html(data);
+
         }
 
 

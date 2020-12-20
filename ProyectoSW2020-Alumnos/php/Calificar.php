@@ -1,19 +1,25 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
     if (isset($_POST['res']) && !isset($_SESSION['email']) && isset($_SESSION['id'])){
         include "DbConfig.php";
-        $mysqli = mysqli_connect($server, $user, $pass, $basededatos);
+        $mysqli = new mysqli($server, $user, $pass, $basededatos);
 
         if (!$mysqli){
           exit('<p style="color:red;"> Ha ocurrido un error inesperado </p> <br> <a href="Layout.php"> Volver a la pagina principal </a>');
         }
 
-        $idInt = $_SESSION['id'];
-        $id = "'".$_SESSION['id']."'";
-        $res = "'".$_POST['res']."'";
-        $query = "SELECT * FROM Preguntas WHERE resOK=$res AND id=$id";
+        $id = $mysqli->real_escape_string($_SESSION['id']);
+        $res = $mysqli->real_escape_string($_POST['res']);
 
-        $res = mysqli_query($mysqli, $query);
+        $stmt = $mysqli->prepare("SELECT * FROM Preguntas WHERE resOK=? AND id=?");
+
+        $stmt->bind_param('ss', $res, $id);
+
+        $stmt->execute();
+
+        $res = $stmt->get_result();
 
         if(!$res){
             exit('<p style="color:red;"> Ha ocurrido un error inesperado </p> <br> <a href="Layout.php"> Volver a la pagina principal </a>');
@@ -21,17 +27,23 @@
 
         if(mysqli_num_rows($res) > 0){
             $_SESSION['aciertos'] =  $_SESSION['aciertos'] +1;
-            echo '<p style="color:green;"> LA RESPUESTA ES CORRECTA </p>';
+            echo '<p  style="color: white; padding: 5px; background-color: #91cf99; "> LA RESPUESTA '.$_POST['res'].' ES CORRECTA </p>';
         }else{
             $_SESSION['fallos'] =  $_SESSION['fallos'] +1;
-            echo '<p style="color:red;"> LA RESPUESTA ES INCORRECTA </p>';
+
+            if($_POST['res'] == "undefined"){
+                echo '<p style="color: white; padding: 5px; background-color: #e74c3c; "> LA RESPUESTA ES INCORRECTA NO HAS SELECCIONADO NINGUNA OPCION</p>';
+            }else{
+                echo '<p style="color: white; padding: 5px; background-color: #e74c3c; "> LA RESPUESTA  '.$_POST['res'].' INCORRECTA </p>';
+            }
+
 
         }
         echo "</br>";
-        echo '<input type="button" value="Abandonar" onclick="resultados()"> ';
-        echo '<input type="button" value="Otra Pregunta" onclick="otraPregunta()"> </br>';
-        echo '<input type="button" id ="likePreg" value="Like" onclick="meGusta('.$id.')"> ';
-        echo '<input type="button" id="dislikePreg" value="Dislike" onclick="noMeGusta('.$id.')"> ';
+        echo '<input type="button" value="Abandonar" style="width: 150px; height : 60px; background-color: #e74c3c; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;" onclick="resultados()"> ';
+        echo '<input type="button" value="Otra Pregunta" id="otraPreg" style="width: 150px; height : 60px; background-color: #5d6d7e; cursor: pointer; padding: 5px; color: white; border: none;  border-radius: 8px;" onclick="otraPregunta()"> </br>';
+        echo '<br><img type="image" style="padding: 5px; " src="../images/like.png" width="25px" height ="25px" id ="likePreg" value="Like" onclick="meGusta('.$id.')">  ';
+        echo '<img type="image" style="padding: 5px;" src="../images/dislike.png" width="25px" height ="25px" id="dislikePreg" value="Dislike" onclick="noMeGusta('.$id.')"> ';
         echo "</form>";
 
     }

@@ -1,8 +1,8 @@
 function aJugar(){
     var fd = new FormData();
     //console.log(  $("#subirImagen")[0].files[0]);
-    fd.append( 'opcionTema', $("#fJugar").serialize().split("=")[1]);
-    console.log(fd);
+    fd.append( 'opcionTema', $("#fJugar input[type='radio']:checked").val());
+    console.log( $("#fJugar input[type='radio']:checked").val());
 
     $.ajax({
 
@@ -58,7 +58,8 @@ function resultados(){
 
 function anadirQuizzer(){
     var fd = new FormData();
-    fd.append('nick', $("#fQuizzers").serialize().split("=")[1]);
+    fd.append('nick',  $("#nick").val());
+
 
     $.ajax({
 
@@ -91,7 +92,8 @@ function meGusta($id){
         cache: false,
         type: 'POST',
         success: function(data){
-            $("#ajugar").append(data);
+            data = data + "<br><img src='../images/feliz.png' width='128px' height='85px'>";
+            $(data).insertBefore("#likePreg");
             $("#likePreg").hide();
             $("#dislikePreg").hide();
         }
@@ -114,7 +116,8 @@ function noMeGusta($id){
         cache: false,
         type: 'POST',
         success: function(data){
-            $("#ajugar").append(data);
+            data = data + "<br><img src='../images/feliz.png' width='128px' height='85px'>";
+            $(data).insertBefore("#likePreg");
             $("#likePreg").hide();
             $("#dislikePreg").hide();
         }

@@ -1,3 +1,34 @@
+<?php
+error_reporting(0);
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+include "UpdateLastConection.php";
+if(isset($_SESSION['email'])){
+  $email = $_SESSION['email'];
+  if(!isset($_SESSION['ultimoAcceso'])){
+    $_SESSION['ultimoAcceso'] = time();
+    updateLastConection($email);
+
+  }else{
+    if  ($_SESSION['ultimoAcceso'] < time() - 10){
+      include "DeleteEmailFromXml.php";
+      session_unset();
+      session_destroy();
+      deleteEmailFromXml($email);
+      echo "<script>
+          alert('Hasta Pronto la session ha expirado ');
+          window.location.href='Layout.php';
+      </script>";
+    }else{
+      $_SESSION['ultimoAcceso'] = time();
+      updateLastConection($email);
+
+    }
+  }
+}
+
+?>
 <script src="../js/DecreaseCounterAjax.js"></script>
 <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="../js/ShowImageInForm.js"></script>
@@ -6,6 +37,7 @@
 <script src="../js/CountQuestions.js"></script>
 <script src="../js/CountUsersAjax.js"></script>
 <script src="../js/CalificarAjax.js"></script>
+<script src="../js/CambiarPassAjax.js"></script>
 <script src="../js/AJugarAjax.js"></script>
 <script src="../js/LoginSocial.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -57,7 +89,8 @@
         <div id='page-wrap'>
         <header class='main' id='h1'>
           <span class='right'><a href='SignUp.php'>Registro</a></span>
-            <span class='right'><a href='LogIn.php' onClick='signOut();'>Login</a></span>
+            <span class='right'><a href='LogIn.php'>Login</a></span>
+            <span class='right'><a href='CambiarContrasena.php'>Modificar Contraseña</a></span>
             <span class='right'>Anonimo</span>
             <span class='right' style='display:none;'><a href='/logout' onClick='signOut()'>Logout</a></span>
             <img src='../images/usuarios/anonimo.png' width='50px' height='50px'>
@@ -66,7 +99,8 @@
         </header>
 
         <nav class='main' id='n1' role='navigation'>
-          <span><a href='Layout.php'>Inicio</a></span>
+          <span><a  href='Layout.php'>Inicio</a></span>
+          <span><a href='AJugar.php'>AJugar</a></span>
           <span><a href='Credits.php'>Creditos</a></span>
         </nav> ");
 

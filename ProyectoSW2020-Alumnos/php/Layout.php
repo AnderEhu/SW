@@ -1,5 +1,7 @@
 <?php
-  session_start();
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,8 +12,11 @@
   <?php include '../php/Menus.php' ?>
   <section class="main" id="s1">
     <div>
+      <?php
+        include "ShowRanking.php";
+        include "UpdateLastConection.php";
 
-      <h2>Quiz: el juego de las preguntas</h2>
+      ?>
 
     </div>
   </section>
