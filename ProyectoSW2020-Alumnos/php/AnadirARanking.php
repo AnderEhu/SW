@@ -35,8 +35,14 @@
             exit();
         }
 
+        include "ShowRanking.php";
+
+    }else{
+        echo "<script>
+        window.location.href='Layout.php';
+      </script>";
     }
 
 
-    include "ShowRanking.php";
+
 ?>

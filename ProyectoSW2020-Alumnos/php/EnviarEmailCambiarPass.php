@@ -31,6 +31,10 @@
         echo '<p style="font-size: 12px"> Se ha envado un correo electronico a '.$email.' , sigue las instrucciones para restablecer la contraseña';
 
 
+    }else{
+        echo "<script>
+        window.location.href='Layout.php';
+      </script>";
     }
 
     function enviarEmail($destinatario, $code){

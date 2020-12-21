@@ -26,6 +26,10 @@ if(isset($_POST['id']) && isset( $_SESSION['tema'])){
 
     echo "<p>Gracias por valorar la pregunta</p>";
 
+}else{
+  echo "<script>
+        window.location.href='Layout.php';
+      </script>";
 }
 
 

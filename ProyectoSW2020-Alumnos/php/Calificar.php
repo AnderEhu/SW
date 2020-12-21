@@ -46,6 +46,10 @@
         echo '<img type="image" style="padding: 5px;" src="../images/dislike.png" width="25px" height ="25px" id="dislikePreg" value="Dislike" onclick="noMeGusta('.$id.')"> ';
         echo "</form>";
 
+    }else{
+        echo "<script>
+        window.location.href='Layout.php';
+      </script>";
     }
 
 ?>

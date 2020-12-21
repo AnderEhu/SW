@@ -1,4 +1,5 @@
 <?php
+    error_reporting(0);
      include "DbConfig.php";
 
      $mysqli = mysqli_connect($server, $user, $pass, $basededatos);
@@ -6,9 +7,9 @@
        exit('<p style="color:red;"> Ha ocurrido un error inesperado </p> <br> <a href="Layout.php"> Volver a la pagina principal </a>');
      }
 
-     $query = mysqli_prepare($mysqli, "SELECT Email FROM Usuarios WHERE LastCon>=?");
+     $query = mysqli_prepare($mysqli, "SELECT Email FROM Usuarios WHERE LastCon<=?");
 
-     $time = time()-60*5;
+     $time = time()-5*60;
 
      mysqli_stmt_bind_param($query, 'i', $time);
 
@@ -16,29 +17,36 @@
 
      $res = mysqli_stmt_get_result($query);
 
-     $questions_path = "../xml/UserCounter.xml";
 
-     if(!file_exists($questions_path)){
+     if(!file_exists("../xml/UserCounter.xml")){
        return "<p style='color:red;'>Error: No se puede insertar en el xml </p> <br>";
 
      }
 
-     $xml = new SimpleXMLElement("<?xml version='1.0'?><usuarios></usuarios>");
+     $xml =  simplexml_load_file("../xml/UserCounter.xml");
 
 
      while ($fila = mysqli_fetch_array($res, MYSQLI_NUM))
      {
          foreach ($fila as $f)
          {
+            //Comporbar que no esta en xml
 
-            $usuario = $xml->addChild('usuario', $f);
-            echo $usuario;
+            foreach ($xml->children() as $usuario) {
+              if ($usuario == $f){
+                unset($usuario[0]);
+              }
+
+            }
+
+            //$usuario = $xml->addChild('usuario', $f);
+            //echo $usuario;
          }
 
      }
 
 
-     $xml->asXML($questions_path);
+     $xml->asXML('../xml/UserCounter.xml');
 
 
 ?>

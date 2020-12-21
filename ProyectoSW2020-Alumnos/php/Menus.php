@@ -4,30 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include "UpdateLastConection.php";
-if(isset($_SESSION['email'])){
-  $email = $_SESSION['email'];
-  if(!isset($_SESSION['ultimoAcceso'])){
-    $_SESSION['ultimoAcceso'] = time();
-    updateLastConection($email);
-
-  }else{
-    if  ($_SESSION['ultimoAcceso'] < time() - 10){
-      include "DeleteEmailFromXml.php";
-      session_unset();
-      session_destroy();
-      deleteEmailFromXml($email);
-      echo "<script>
-          alert('Hasta Pronto la session ha expirado ');
-          window.location.href='Layout.php';
-      </script>";
-    }else{
-      $_SESSION['ultimoAcceso'] = time();
-      updateLastConection($email);
-
-    }
-  }
-}
-
+updateLastConection();
 ?>
 <script src="../js/DecreaseCounterAjax.js"></script>
 <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>

@@ -9,7 +9,7 @@ function updateLastConection(){
       updateLastConectionDB($email);
 
     }else{
-      if  ($_SESSION['ultimoAcceso'] < time() - 10){
+      if  ($_SESSION['ultimoAcceso'] < time() - 5*60){
         include "DeleteEmailFromXml.php";
         session_unset();
         session_destroy();
@@ -24,6 +24,7 @@ function updateLastConection(){
 
       }
     }
+  }
 }
 
 

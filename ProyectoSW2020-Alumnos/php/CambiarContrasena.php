@@ -2,6 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+if(isset($_SESSION['email'])){
+  echo "<script>
+        window.location.href='Layout.php';
+      </script>";
+}
 ?>
 <!DOCTYPE html>
 <html>

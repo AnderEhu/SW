@@ -48,6 +48,10 @@
         echo '<h1 style="color:green;"> Contraseña restablecida </h1>';
 
 
+    }else{
+      echo "<script>
+        window.location.href='Layout.php';
+      </script>";
     }
 
 ?>

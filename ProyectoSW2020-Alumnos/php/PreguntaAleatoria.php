@@ -75,6 +75,10 @@
 
 
 
+    }else{
+        echo "<script>
+        window.location.href='Layout.php';
+      </script>";
     }
 
 ?>

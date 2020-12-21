@@ -24,7 +24,7 @@
 
 
       <p><label for="email"> Direccion de correo:</label>
-      <input type="text" size="50" id="email" name="email" value=<?=$email?> ></p>
+      <input type="text" size="50" id="email" name="email" value=<?=$email?> readonly></p>
 
       <p><label for="pregunta"> Enunciado de la Pregunta:</label>
       <input type="text" size="44" id="pregunta" name="pregunta"></p>
